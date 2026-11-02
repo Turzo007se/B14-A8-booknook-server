@@ -18,7 +18,8 @@ export function safeBorrow(borrow: Borrow & Document) {
 export function validBook(body: Partial<Book>) {
   return typeof body.title === "string" && !!body.title.trim()
     && typeof body.author === "string" && !!body.author.trim()
-    && ["Fiction", "Science", "History", "Kids", "Others"].includes(body.category || "")
+    && typeof body.category === "string" && body.category.trim().length > 0
+    && body.category.trim().length <= 50 && !/[\u0000-\u001f\u007f]/.test(body.category)
     && typeof body.image === "string" && /^https?:\/\//.test(body.image)
     && typeof body.description === "string"
     && Number.isInteger(body.copies) && Number(body.copies) >= 0;
